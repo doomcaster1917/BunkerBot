@@ -1,0 +1,22 @@
+#!/bin/bash
+apt update
+apt upgrade
+apt install python3-pip
+
+pip install requirements.txt
+python3 installing.py
+
+systemd_dir=/etc/systemd/system
+the_unit=/etc/systemd/system/Bunker_Bot.service
+
+if [ -e $the_unit ]
+then
+echo "The $the_unit file exists"
+else
+cp Bunker_Bot.service $systemd_dir
+echo "The $the_unit file was made"
+fi
+systemctl enable Bunker_bot
+systemctl start Bunker_bot
+Systemctl daemon reload
+echo "BunkerBot is working now"

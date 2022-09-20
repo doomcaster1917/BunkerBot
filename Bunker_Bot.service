@@ -1,0 +1,17 @@
+[Unit]
+Description=Bunker_Bot
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/root/BunkerBot
+User=root
+Group=root
+ExecStart=/usr/bin/python3 main.py
+ExecReload=/usr/bin/python3 main.py
+Restart=always
+RestartSec=25
+
+[Install]
+
+WantedBy=multi-user.target
