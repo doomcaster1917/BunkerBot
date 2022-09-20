@@ -1,5 +1,4 @@
 import random
-
 from vkbottle.bot import Bot, Message
 from vkbottle.user import User
 from vkbottle import UserAuth
@@ -7,6 +6,7 @@ from vkbottle import PhotoMessageUploader
 import configparser
 import json
 import re
+import asyncio
 
 config = configparser.ConfigParser()
 
@@ -80,8 +80,10 @@ async def other_settings():
             except:
                 print('Логин или пароль неверные, либо боту не удалось написать вам, потому что у вас на главной странице закрыты сообщения.')
 
+async def main():
+    await make_config()
+    await other_settings()
 
 
-
-
+asyncio.run(main())
 
