@@ -1,8 +1,6 @@
 #!/bin/bash
-apt update
-apt upgrade
-apt install python3-pip
 
+apt install python3-pip
 pip install -r requirements.txt
 python3 installing.py
 
