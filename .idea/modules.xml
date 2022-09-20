@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Internar_For.iml" filepath="$PROJECT_DIR$/.idea/Internar_For.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/BunkerBot.iml" filepath="$PROJECT_DIR$/.idea/BunkerBot.iml" />
     </modules>
   </component>
 </project>

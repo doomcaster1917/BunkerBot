@@ -12,6 +12,7 @@ from vkbottle.user import User
 import logging
 from vkbottle.dispatch.rules.base import AttachmentTypeRule
 from vkbottle.tools import PhotoMessageUploader
+from vkbottle import UserAuth, VKAPIError
 import threading
 import asyncio
 import concurrent.futures
@@ -20,7 +21,9 @@ config = configparser.ConfigParser()
 config.read('config.ini')
 group_token = config['GROUP']['Token']
 user_token = config['USER']['Token']
-admin_id = config['ADMIN']['Id']
+user_login = config['USER']['Login']
+user_password = config['USER']['Password']
+admin_id = config['ADMIN']['Admin_id']
 
 bot = Bot(token=group_token)
 user = User(token=user_token)
@@ -96,14 +99,17 @@ async def message_handler(message: Message):
                        attachment=image_sizes)
 
         elif msg == 'Связаться с создателем':
-
-            try:
-                await reply_of_author(message.peer_id, 'Приветствую вас, я создатель бота. '
-                                                       'Напишите свой вопрос, а я отвечу вам, когда буду в сети.')
-                await message.answer(message= 'Создатель прислал вам сообщение, вы можете найти его ссылку в диалогах')
-            except:
-                await message.answer(message='Возможно, что в настройках вашей страницы запрещены входящие сообщения. '
-                                                       'Попробуйте разрешить сообщения и нажмите кнопку заново')
+            if user_token:
+                try:
+                    await reply_of_author(message.peer_id, 'Приветствую вас, я создатель бота. '
+                                                           'Напишите свой вопрос, а я отвечу вам, когда буду в сети.')
+                    await message.answer(message= 'Создатель прислал вам сообщение, вы можете найти его ссылку в диалогах')
+                except:
+                    await message.answer(message='Возможно, что в настройках вашей страницы запрещены входящие сообщения. '
+                                                           'Попробуйте разрешить сообщения и нажмите кнопку заново')
+            else:
+                await message.answer(message='Администратор пользователя не указал при установке бота страницу для связи.'
+                                             'Страница же разработчика бота: https://vk.com/id661706483')
         else:
             zalgo_msg = await zalgo_handler(msg)
             await message.answer(message=zalgo_msg, keyboard=what_can_i_do_keyboard)
@@ -264,9 +270,21 @@ async def zalgo_handler(msg):
         return zalgo_msg
 
 async def reply_of_author(id, message):
-
-    await user.api.messages.send(peer_id=id, message=message, random_id=random.randrange(10000000000000000000000000000000))
-
+    if user_token:
+        try:
+            await user.api.messages.send(peer_id=id, message=message, random_id=random.randrange(10000000000000000000000000000000))
+        except VKAPIError as error:
+            if error.code == 5:
+                new_token = await UserAuth().get_token(login=user_login, password=user_password)
+                usr = User(token=new_token)
+                await usr.api.messages.send(peer_id=id, message=message,
+                                             random_id=random.randrange(10000000000000000000000000000000))
+                config['USER']['Token'] = user_token
+                with open('config.ini', 'w') as configfile:
+                    config.write(configfile)
+                logger_errors.error(f"Произошла ошибка авторизации {error}. Бот перелогинился.")
+    else:
+        pass
 
 def write_logs(filename, name, level) -> logging.Logger:
     formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
