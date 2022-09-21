@@ -59,7 +59,7 @@ async def other_settings():
                          "от неё на вашу страницу будут приходить уведомления об ошибках. Этот метод бота не безопасен: vk.com запрещает использование"
                          "ботами обычных страниц: страница должна быть фейковая, потому что, попросту говоря, её могут забанить.")
         decision = input('Введите Да или Нет.')
-        if decision == "Да":
+        if decision.lower() == "Да".lower():
             user_login = input("Введите логин. Чтобы отказаться, введите: Отказаться.")
             if user_login.lower() == 'Отказаться'.lower():
                 break
@@ -83,16 +83,21 @@ async def other_settings():
                 config['ADMIN']['Admin_id'] = admin_id
                 with open('config.ini', 'w') as configfile:
                     config.write(configfile)
-                print('Авторизация прошла успешно.')
                 break
+
             except Exception as err:
                 print(err)
                 print('Логин или пароль неверные, либо боту не удалось написать вам, потому что у вас на главной странице закрыты сообщения.')
 
+        elif decision.lower() == 'Нет'.lower():
+            break
+
+
+
 async def main():
     await make_config()
     await other_settings()
-
+    print('Авторизация прошла успешно.')
 
 asyncio.run(main())
 
