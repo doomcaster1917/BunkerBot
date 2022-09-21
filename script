@@ -14,7 +14,7 @@ else
 cp Bunker_Bot.service $systemd_dir
 echo "The $the_unit file was made"
 fi
-systemctl enable Bunker_Bunker
+systemctl enable Bunker_Bot
 systemctl start Bunker_Bot
-Systemctl daemon-reload
+systemctl daemon-reload
 echo "BunkerBot is working now"

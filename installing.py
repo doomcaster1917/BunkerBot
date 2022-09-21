@@ -23,7 +23,7 @@ raw_images = {
 async def make_config():
     group_token = input("Введите токен паблика")
     while True:
-        # try:
+        try:
 
             bot = Bot(token=group_token)
 
@@ -47,11 +47,11 @@ async def make_config():
                 config.write(configfile)
             break
 
-        # except Exception as err:
-        #     print(err)
-        #     time.sleep(5)
-        #     print('Токен от группы невалидный. Возможно, в настройках группы для токена вы забыли что-то указать.'
-        #           'Прочитайте инструкцию заново и попробуйте создать новый токен.')
+        except Exception as err:
+            print(err)
+            time.sleep(5)
+            print('Токен от группы невалидный. Возможно, в настройках группы для токена вы забыли что-то указать.'
+                  'Прочитайте инструкцию заново и попробуйте создать новый токен.')
 
 async def other_settings():
     while True:
