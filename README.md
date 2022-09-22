@@ -1,8 +1,10 @@
 ## BunkerBot
 Для установки нажмите 
 ```
-git update
+apt update; apt install git
+
 git clone https://github.com/doomcaster1917/BunkerBot.git /home/BunkerBot
+
 /home/BunkerBot/./script
 ```
 
