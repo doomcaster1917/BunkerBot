@@ -1,4 +1,12 @@
 ## BunkerBot
+Для установки нажмите 
+```
+apt update; apt install git
+
+git clone https://github.com/doomcaster1917/BunkerBot.git /home/BunkerBot
+
+/home/BunkerBot/./script
+```
 
 # Устанавливается в вашу группу и создаёт из сообщений пользователей вот такой текст:
 
