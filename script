@@ -21,4 +21,4 @@ fi
 systemctl enable Bunker_Bot
 systemctl start Bunker_Bot
 systemctl daemon-reload
-echo "BunkerBot is working now"
+echo "БОТ НАСТРОЕН И РАБОТАЕТ"

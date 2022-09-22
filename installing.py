@@ -8,6 +8,8 @@ import json
 import re
 import asyncio
 import time
+from loguru import logger
+logger.remove()
 
 config = configparser.ConfigParser()
 
@@ -21,8 +23,9 @@ raw_images = {
 }
 
 async def make_config():
-    group_token = input("Введите токен паблика")
+
     while True:
+        group_token = input("Введите токен паблика")
         try:
 
             bot = Bot(token=group_token)
@@ -32,12 +35,12 @@ async def make_config():
                 with open(f"carousels/{part}.json", "r") as jsonFile:
                     data = json.load(jsonFile)
 
-                    print(part, data['elements'][0]["photo_id"])
+
                     for num, item in enumerate(data['elements']):
 
-                        print(images[num])
-                        item["photo_id"] = re.sub('photo', '', await PhotoMessageUploader(bot.api).upload(images[num]))
 
+                        item["photo_id"] = re.sub('photo', '', await PhotoMessageUploader(bot.api).upload(images[num]))
+                        print(f"Картинка {data['elements'][0]['photo_id']} для {part} размещена на сервере vk.com")
                 with open(f"carousels/{part}.json", "w") as jsonFile:
                     json.dump(data, jsonFile)
 
@@ -47,8 +50,8 @@ async def make_config():
                 config.write(configfile)
             break
 
-        except Exception as err:
-            print(err)
+        except:
+
             time.sleep(5)
             print('Токен от группы невалидный. Возможно, в настройках группы для токена вы забыли что-то указать.'
                   'Прочитайте инструкцию заново и попробуйте создать новый токен.')
