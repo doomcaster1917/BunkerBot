@@ -20,13 +20,20 @@ import concurrent.futures
 config = configparser.ConfigParser()
 config.read('config.ini')
 group_token = config['GROUP']['Token']
-user_token = config['USER']['Token']
-user_login = config['USER']['Login']
-user_password = config['USER']['Password']
-admin_id = config['ADMIN']['Admin_id']
+if 'USER' in config and 'ADMIN' in config:
+    user_token = config['USER']['Token']
+    user_login = config['USER']['Login']
+    user_password = config['USER']['Password']
+    admin_id = config['ADMIN']['Admin_id']
+    user = User(token=user_token)
+else:
+    user_token = None
+    user_login = None
+    user_password = None
+    admin_id = None
 
 bot = Bot(token=group_token)
-user = User(token=user_token)
+
 
 
 

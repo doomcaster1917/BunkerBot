@@ -7,8 +7,8 @@ Type=simple
 WorkingDirectory=/home/BunkerBot
 User=root
 Group=root
-ExecStart=/home/BunkerBot/bin/python3 main.py
-ExecReload=/home/BunkerBot/bin/python3 main.py
+ExecStart=/home/BunkerBot/venv/bin/python3 main.py
+ExecReload=/home/BunkerBot/venv/bin/python3 main.py
 Restart=always
 RestartSec=25
 
